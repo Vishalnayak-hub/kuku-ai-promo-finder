@@ -2,18 +2,22 @@
 
 ## 1. Project Overview
 
-A Python-based pipeline to identify, evaluate and rank potential 20–60 second promotional clips from 50 episodic screenplays.
+A Python-based pipeline to identify, evaluate and rank potential 20–60 second promotional clips from episodic screenplays.
 
 The system combines timestamp extraction, sliding-window candidate generation, NLP-based feature engineering, heuristic scoring, near-duplicate suppression and human editorial evaluation through a Streamlit dashboard.
 
-**Important limitation:** The supplied source contains screenplay text and timestamped descriptions, not actual video footage. Therefore, visual execution, acting, audio and editing quality could not be validated.
+**Important limitation:** The supplied source contains screenplay text and timestamped descriptions, not actual video footage. Visual execution, acting, audio and editing quality could therefore not be validated.
 
 ## 2. Dataset
+
+The assignment input consists of:
 
 - 50 screenplay text files
 - 100 scenes
 - 3,727 timestamped event blocks
 - Event types: dialogue, camera, action and sound effects
+
+The original screenplay files and generated datasets are not included in this public repository. They should be placed in the appropriate local project directories before execution.
 
 ## 3. Methodology
 
@@ -28,7 +32,7 @@ The system combines timestamp extraction, sliding-window candidate generation, N
 - Refine event timelines to candidate boundaries.
 - Generate an editorial shortlist.
 - Apply a five-criterion human editorial rubric.
-- Document failure cases, including Episode 46.
+- Inspect and document failure cases, including Episode 46.
 
 ### Phase 3 — NLP Feature Engineering and Automated Scoring
 - Extract 16 screenplay-derived features, including dialogue density, questions, emotional signals, conflict signals and cliffhanger signals.
@@ -43,7 +47,71 @@ The system combines timestamp extraction, sliding-window candidate generation, N
 - Review scoring breakdowns and human editorial evaluations.
 - Export filtered candidate datasets as CSV.
 
-## 4. Editorial Scoring Rubric
+## 4. Setup and Execution
+
+### Requirements
+- Python 3.13 or compatible version
+- Git
+- Assignment screenplay input files
+
+### Clone the repository
+
+```bash
+git clone https://github.com/Vishalnayak-hub/kuku-ai-promo-finder.git
+cd kuku-ai-promo-finder
+```
+
+### Create and activate a virtual environment
+
+Windows PowerShell:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+macOS/Linux:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Add input files
+
+Place the 50 assignment screenplay TXT files in:
+
+```text
+data/raw/
+```
+
+The input files are not distributed through this repository.
+
+### Run the pipeline
+
+Follow `EXECUTION_GUIDE.md` for the ordered execution of the Python scripts in `src/`. This generates the processed datasets and candidate rankings in `outputs/`.
+
+### Launch the dashboard
+
+```bash
+streamlit run app.py
+```
+
+Open the local URL displayed in the terminal, normally:
+
+```text
+http://localhost:8501
+```
+
+**Note:** The dashboard requires the generated output CSV files. Run the pipeline before launching it.
+
+## 5. Editorial Scoring Rubric
 
 | Criterion | Weight |
 |---|---:|
@@ -55,14 +123,14 @@ The system combines timestamp extraction, sliding-window candidate generation, N
 
 Each criterion is rated from 0 to 5. The weighted editorial score is out of 100. These are subjective screenplay-based human judgments.
 
-## 5. Current Results
+## 6. Current Results
 
 | Metric | Result |
 |---|---:|
 | Episodes processed | 50 |
 | Original candidate windows | 4,305 |
 | Candidates after custom additions | 4,308 |
-| NLP features extracted per candidate | 16 |
+| NLP features per candidate | 16 |
 | Candidates retained after near-duplicate suppression | 268 |
 | Editorial shortlist records | 63 |
 | Manually reviewed | 5 |
@@ -78,11 +146,11 @@ Each criterion is rated from 0 to 5. The weighted editorial score is out of 100.
 | 4 | 11 | 00:00–00:54 | 54 sec | 96 |
 | 5 | 22 | 00:06.50–00:58.50 | 52 sec | 85 |
 
-The Episode 11 cuts are near-duplicates. The 60-second version is preferred because it includes the constable's search and Juliana's urgent reveal about her mother's medicines. The 54-second version is an alternative cut, not an independent story.
+The Episode 11 cuts are near-duplicates. The 60-second version is preferred because it includes the constable's search and Juliana's urgent intervention involving her mother's medicines. The 54-second version is an alternative cut, not an independent story.
 
 These five candidates are manually reviewed examples, not a fully validated ranking of all candidates.
 
-## 6. Automated Scoring Validation
+## 7. Automated Scoring Validation
 
 - Five human-reviewed candidates matched successfully with automated scores.
 - Spearman rank correlation: **0.447**.
@@ -90,25 +158,37 @@ These five candidates are manually reviewed examples, not a fully validated rank
 - Automated scores are heuristic screening signals, not predictions from a trained machine-learning model.
 - Human editorial review remains necessary for narrative context, emotional impact and cliffhanger quality.
 
-## 7. Failure Case
+## 8. Failure Case
 
 Episode 46 was inspected as a negative example. Its strongest 60-second cut contains a dramatic confrontation but ends with an emotionally resolved response rather than a clearly unresolved cliffhanger.
 
-See `outputs/episode_46_failure_case.md`.
+This illustrates why dramatic intensity alone is insufficient to establish promotional suitability.
 
-## 8. Project Structure
+## 9. Project Structure
 
-- `data/raw/` — Original screenplay files
-- `src/` — Python scripts for extraction, candidate generation, NLP, scoring, deduplication and validation
-- `outputs/` — Processed datasets, rankings and editorial evaluations
-- `app.py` — Streamlit dashboard
-- `requirements.txt` — Python dependencies
-- `EXECUTION_GUIDE.md` — Instructions for running the project
+```text
+kuku-promo-finder/
+├── src/                  # Python processing scripts
+├── app.py                # Streamlit dashboard
+├── requirements.txt      # Python dependencies
+├── README.md             # Project documentation
+├── EXECUTION_GUIDE.md    # Detailed execution sequence
+├── data/raw/             # Local screenplay inputs (not tracked)
+└── outputs/              # Generated datasets (not tracked)
+```
 
-## 9. Limitations and Future Work
+## 10. Limitations and Future Work
 
 - Evaluation is based on screenplay text and timestamped descriptions, not actual video.
 - Only five candidates have completed manual editorial review.
 - Automated scores rely on keyword and structural heuristics and do not fully understand narrative semantics.
 - Temporal overlap detection may not identify semantically similar clips across different episodes.
 - Future improvements include a larger human-labelled dataset, semantic narrative models, video/audio analysis and broader editorial validation.
+
+## 11. Submission Links
+
+**GitHub Repository:**  
+https://github.com/Vishalnayak-hub/kuku-ai-promo-finder
+
+**Execution Instructions:**  
+See `EXECUTION_GUIDE.md` in the repository.
