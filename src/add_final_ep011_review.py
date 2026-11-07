@@ -18,7 +18,7 @@ updates = {
     "ending_rating": 4,
     "editorial_score": 96,
     "hook_description": "Gerald unexpectedly arrives at Juliana and Alexander's cottage.",
-    "cliffhanger_description": "The constable searches the cottage and Juliana cries: Stop! Those are my mother's medicines!",
+       "cliffhanger_description": "Juliana urgently intervenes as the constable searches her mother's medicines.",
     "editorial_rationale": "Clear confrontation and theft accusation establish the conflict. The constable's search escalates the stakes, ending on the threat to Juliana's mother's medicines. Strong screenplay-based promo with an unresolved ending.",
     "review_status": "Reviewed - screenplay inspection"
 }
